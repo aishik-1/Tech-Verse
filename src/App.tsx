@@ -20,13 +20,17 @@ function MainApp() {
   const { showToast } = useToast();
   const [currentUser, setCurrentUser] = useState<Profile | null>(db.getCurrentUser());
   const [currentTab, setCurrentTab] = useState<string>('dashboard');
-  const [isLoginView, setIsLoginView] = useState(false);
+  // If no user is logged in, DEFAULT directly to the 3D tplh.net LoginPage!
+  const [isLoginView, setIsLoginView] = useState<boolean>(!db.getCurrentUser());
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   useEffect(() => {
     // Check URL hash for direct login link
-    if (window.location.hash === '#login' && !currentUser) {
+    if (window.location.hash === '#login') {
       setIsLoginView(true);
+    } else if (window.location.hash === '#dashboard' && currentUser) {
+      setIsLoginView(false);
+      setCurrentTab('dashboard');
     }
 
     const handleHash = () => {
@@ -45,7 +49,7 @@ function MainApp() {
       const user = db.getCurrentUser();
       setCurrentUser(user);
       if (!user) {
-        setCurrentTab('landing');
+        setIsLoginView(true);
       }
     });
 
@@ -58,9 +62,9 @@ function MainApp() {
   const handleLogout = () => {
     db.logout();
     showToast('info', 'Signed out of TechVerse.');
-    setCurrentTab('landing');
-    setIsLoginView(false);
-    window.location.hash = '';
+    setCurrentUser(null);
+    setIsLoginView(true);
+    window.location.hash = '#login';
   };
 
   const handleAuthSuccess = () => {
@@ -74,7 +78,7 @@ function MainApp() {
   return (
     <div className="min-h-screen flex flex-col bg-[#131418] text-white/75 selection:bg-[#acffce]/30 selection:text-[#acffce]">
       <AnimatePresence mode="wait">
-        {isLoginView && !currentUser ? (
+        {isLoginView ? (
           <motion.div
             key="login-page"
             initial={{ opacity: 0 }}
@@ -87,6 +91,9 @@ function MainApp() {
               onSuccess={handleAuthSuccess}
               onBackToHome={() => {
                 setIsLoginView(false);
+                if (!currentUser) {
+                  setCurrentTab('landing');
+                }
                 window.location.hash = '';
               }}
             />
@@ -130,11 +137,8 @@ function MainApp() {
                     window.location.hash = '#login';
                   }}
                   onExploreDemo={() => {
-                    // Sign in as default user if not logged in
-                    db.switchUser('usr_aishik');
-                    setCurrentUser(db.getCurrentUser());
-                    setCurrentTab('dashboard');
-                    showToast('success', 'Entered as Aishik Roy (BST Tech Club Lead)');
+                    setIsLoginView(true);
+                    window.location.hash = '#login';
                   }}
                 />
               ) : (

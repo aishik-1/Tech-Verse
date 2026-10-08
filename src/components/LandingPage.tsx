@@ -364,7 +364,13 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <div className="hidden sm:flex items-center gap-3">
             <span>Harmonic State</span>
             <span className="text-white/20">•</span>
-            <span className="c-accent">Hacktoberfest '26</span>
+            <button
+              onClick={onGetStarted}
+              className="px-3 py-1 rounded-full bg-[#ffd166]/15 hover:bg-[#ffd166]/25 border border-[#ffd166]/35 text-[#ffd166] text-[11px] font-mono tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer"
+            >
+              <Sparkles className="w-3 h-3 text-[#ffd166]" />
+              <span>3D Login / Register</span>
+            </button>
           </div>
         </div>
 
@@ -395,9 +401,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-3">
             <button
               onClick={onGetStarted}
-              className="button-orbit is-primary flex items-center gap-2 group w-full sm:w-auto"
+              className="button-orbit is-primary flex items-center gap-2 group w-full sm:w-auto shadow-[0_0_25px_rgba(255,209,102,0.3)] !bg-[#ffd166] !text-[#131215]"
             >
-              <span>Enter Student Portal</span>
+              <Sparkles className="w-4 h-4 text-[#131215]" />
+              <span className="font-bold">Open 3D Student Login Portal</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </button>
 

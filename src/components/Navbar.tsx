@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Profile } from '../types';
-import { ShieldCheck, LogOut, User, Menu, X, Sparkles } from 'lucide-react';
+import { ShieldCheck, LogOut, User, Menu, X, Sparkles, Key } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface NavbarProps {
@@ -37,7 +37,11 @@ export const Navbar: React.FC<NavbarProps> = ({
   }
 
   const handleTabClick = (tabId: string) => {
-    onTabChange(tabId);
+    if (tabId === 'login') {
+      onOpenAuth();
+    } else {
+      onTabChange(tabId);
+    }
     setMobileMenuOpen(false);
   };
 
@@ -60,7 +64,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Zone 2: Navigation Links with Framer Motion Layout Transition */}
         {currentUser && (
-          <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-xs font-mono tracking-wider uppercase relative">
+          <nav className="hidden md:flex items-center gap-5 lg:gap-7 text-xs font-mono tracking-wider uppercase relative">
             {navLinks.map((link) => {
               const isActive = currentTab === link.id;
               return (
@@ -92,6 +96,16 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center gap-3">
           {currentUser ? (
             <div className="flex items-center gap-2.5">
+              {/* Direct Access to 3D Login Portal anytime */}
+              <button
+                onClick={onOpenAuth}
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#ffd166]/10 hover:bg-[#ffd166]/20 border border-[#ffd166]/30 text-[#ffd166] text-xs font-mono uppercase tracking-wider transition-colors cursor-pointer"
+                title="Switch Account or open 3D Login Portal"
+              >
+                <Key className="w-3.5 h-3.5" />
+                <span>Login Portal</span>
+              </button>
+
               <button
                 onClick={onOpenProfile}
                 className="flex items-center gap-2 p-1.5 pr-3 rounded-full bg-[#191a1e] border border-white/10 hover:border-[#acffce]/40 transition-all hover:bg-[#202227] cursor-pointer"
@@ -132,13 +146,13 @@ export const Navbar: React.FC<NavbarProps> = ({
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               <button
                 onClick={onOpenAuth}
-                className="button-orbit is-primary !py-1.5 !px-4 !text-xs whitespace-nowrap cursor-pointer flex items-center gap-1.5"
+                className="button-orbit is-primary !py-2 !px-5 !text-xs whitespace-nowrap cursor-pointer flex items-center gap-2 shadow-[0_0_20px_rgba(255,209,102,0.4)]"
               >
                 <Sparkles className="w-3.5 h-3.5 text-[#131418]" />
-                <span>Portal Login</span>
+                <span className="font-bold">STUDENT LOGIN / REGISTER</span>
               </button>
             </div>
           )}
@@ -146,9 +160,9 @@ export const Navbar: React.FC<NavbarProps> = ({
       </div>
 
       {/* Mobile Nav Drawer */}
-      {currentUser && mobileMenuOpen && (
+      {mobileMenuOpen && (
         <div className="md:hidden border-t border-white/10 bg-[#131418] px-4 py-3 space-y-1">
-          {navLinks.map((link) => (
+          {currentUser && navLinks.map((link) => (
             <button
               key={link.id}
               onClick={() => handleTabClick(link.id)}
@@ -166,14 +180,26 @@ export const Navbar: React.FC<NavbarProps> = ({
           ))}
           <button
             onClick={() => {
-              onOpenProfile();
+              onOpenAuth();
               setMobileMenuOpen(false);
             }}
-            className="w-full text-left px-3 py-2 rounded-lg text-xs font-mono uppercase text-white/60 hover:bg-[#191a1e] flex items-center gap-2 border-t border-white/5 mt-2 pt-2"
+            className="w-full text-left px-3 py-2 rounded-lg text-xs font-mono uppercase text-[#ffd166] bg-[#ffd166]/10 border border-[#ffd166]/20 flex items-center gap-2 mt-2"
           >
-            <User className="w-4 h-4 text-[#acffce]" />
-            My Profile & Settings
+            <Key className="w-4 h-4 text-[#ffd166]" />
+            3D Student Login Portal
           </button>
+          {currentUser && (
+            <button
+              onClick={() => {
+                onOpenProfile();
+                setMobileMenuOpen(false);
+              }}
+              className="w-full text-left px-3 py-2 rounded-lg text-xs font-mono uppercase text-white/60 hover:bg-[#191a1e] flex items-center gap-2 border-t border-white/5 mt-2 pt-2"
+            >
+              <User className="w-4 h-4 text-[#acffce]" />
+              My Profile & Settings
+            </button>
+          )}
         </div>
       )}
     </header>

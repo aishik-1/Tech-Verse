@@ -303,6 +303,26 @@ export const Dashboard: React.FC<DashboardProps> = ({
           {/* Quick Actions in Byotone button-orbit style */}
           <div className="flex flex-wrap items-center gap-2.5 relative z-10">
             <button
+              onClick={() => {
+                db.pulseLiveTelemetry();
+              }}
+              className="px-3.5 py-2 rounded-xl bg-[#acffce]/10 hover:bg-[#acffce]/20 border border-[#acffce]/30 text-[#acffce] text-xs font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer shadow-md hover:scale-[1.02]"
+              title="Click to pulse and trigger live community telemetry update"
+            >
+              <Zap className="w-3.5 h-3.5 animate-pulse text-[#acffce]" />
+              <span>Pulse Live Telemetry</span>
+            </button>
+            <button
+              onClick={() => {
+                window.location.hash = '#login';
+              }}
+              className="px-3.5 py-2 rounded-xl bg-[#ffd166]/10 hover:bg-[#ffd166]/20 border border-[#ffd166]/30 text-[#ffd166] text-xs font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer shadow-md hover:scale-[1.02]"
+              title="Open 3D tplh.net Login Portal"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#ffd166]" />
+              <span>3D Login Portal</span>
+            </button>
+            <button
               onClick={() => onNavigateTab('tracks')}
               className="button-orbit is-primary !py-2 !px-4 !text-xs flex items-center gap-1.5 shadow-lg shadow-[#ffd166]/10 cursor-pointer"
             >

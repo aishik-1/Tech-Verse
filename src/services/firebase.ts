@@ -100,7 +100,7 @@ export async function testConnection(): Promise<boolean> {
   }
 }
 
-// Immediately trigger connection validation
+// Trigger connection validation immediately
 testConnection();
 
 // Google Sign-in with Firebase Auth
@@ -117,7 +117,6 @@ export async function signInWithGoogle(): Promise<{ user: Profile; firebaseUser:
       if (snap.exists()) {
         profileData = snap.data() as Profile;
       } else {
-        // Create new profile for Google user
         const isAdminUser = fbUser.email === 'aishik.roy1234@gmail.com' || fbUser.email === 'admin@techverse.bst.edu';
         profileData = {
           id: fbUser.uid,
@@ -155,43 +154,84 @@ export async function firebaseSignOut(): Promise<void> {
   await fbSignOut(auth);
 }
 
-// Realtime listeners with secure error handling
-export function subscribeToChatMessages(
-  onUpdate: (messages: ChatMessage[]) => void,
-  onError?: (err: unknown) => void
+// Listen to Auth State
+export function onAuthUserChanged(callback: (user: FirebaseUser | null) => void): () => void {
+  return onAuthStateChanged(auth, callback);
+}
+
+// Firestore Persistence Helpers
+export async function writeDocToFirestore<T extends Record<string, any>>(
+  collectionName: string,
+  docId: string,
+  data: T
+): Promise<void> {
+  try {
+    const docRef = doc(firestore, collectionName, docId);
+    await setDoc(docRef, data, { merge: true });
+  } catch (err) {
+    handleFirestoreError(err, OperationType.WRITE, `${collectionName}/${docId}`);
+  }
+}
+
+export async function deleteDocFromFirestore(collectionName: string, docId: string): Promise<void> {
+  try {
+    const docRef = doc(firestore, collectionName, docId);
+    await deleteDoc(docRef);
+  } catch (err) {
+    handleFirestoreError(err, OperationType.DELETE, `${collectionName}/${docId}`);
+  }
+}
+
+export async function updateDocInFirestore(
+  collectionName: string,
+  docId: string,
+  data: Partial<Record<string, any>>
+): Promise<void> {
+  try {
+    const docRef = doc(firestore, collectionName, docId);
+    await updateDoc(docRef, data);
+  } catch (err) {
+    handleFirestoreError(err, OperationType.UPDATE, `${collectionName}/${docId}`);
+  }
+}
+
+// Real-time Firestore Subscriptions
+export function subscribeToFirestoreCollection<T>(
+  colName: string,
+  onUpdate: (items: T[]) => void,
+  sortField = 'created_at',
+  sortDirection: 'asc' | 'desc' = 'desc'
 ): () => void {
-  const colPath = 'chat_messages';
-  const q = query(collection(firestore, colPath), orderBy('created_at', 'asc'), limit(100));
+  const colRef = collection(firestore, colName);
+  const q = query(colRef, orderBy(sortField, sortDirection), limit(150));
 
   return onSnapshot(
     q,
     (snapshot) => {
-      const msgs = snapshot.docs.map((docSnap) => docSnap.data() as ChatMessage);
-      onUpdate(msgs);
+      const items = snapshot.docs.map((docSnap) => ({ id: docSnap.id, ...(docSnap.data() as T) }));
+      onUpdate(items);
     },
     (error) => {
-      if (onError) onError(error);
-      handleFirestoreError(error, OperationType.GET, colPath);
+      console.warn(`Firestore subscription fallback for ${colName}:`, error.message);
     }
   );
 }
 
-export function subscribeToIdeas(
-  onUpdate: (ideas: Idea[]) => void,
-  onError?: (err: unknown) => void
-): () => void {
-  const colPath = 'ideas';
-  const q = query(collection(firestore, colPath), orderBy('created_at', 'desc'), limit(100));
-
-  return onSnapshot(
-    q,
-    (snapshot) => {
-      const items = snapshot.docs.map((docSnap) => docSnap.data() as Idea);
-      onUpdate(items);
-    },
-    (error) => {
-      if (onError) onError(error);
-      handleFirestoreError(error, OperationType.GET, colPath);
+// Seed initial data to Firestore if empty
+export async function seedFirestoreCollectionIfEmpty<T extends { id: string }>(
+  colName: string,
+  seedData: T[]
+): Promise<void> {
+  try {
+    const colRef = collection(firestore, colName);
+    const snap = await getDocs(query(colRef, limit(1)));
+    if (snap.empty && seedData.length > 0) {
+      for (const item of seedData) {
+        await setDoc(doc(firestore, colName, item.id), item);
+      }
     }
-  );
+  } catch (err) {
+    // If not permitted or offline, log warning and let client use memory fallback
+    console.warn(`Seed check for ${colName}:`, err);
+  }
 }

@@ -94,10 +94,24 @@ export const CommunityChat: React.FC<CommunityChatProps> = ({ currentUser }) => 
             </div>
           </div>
 
-          <div className="text-right hidden sm:block font-mono text-xs text-white/40">
-            <p>
-              Logged in as <span className="text-[#acffce] font-semibold">{currentUser.full_name}</span>
-            </p>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => {
+                db.pulseLiveTelemetry();
+                showToast('success', 'Telemetry Streamed', 'Simulated real-time club telemetry event received.');
+              }}
+              className="px-2.5 py-1 rounded-lg bg-[#acffce]/10 hover:bg-[#acffce]/20 border border-[#acffce]/30 text-[#acffce] text-[10px] font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer shadow-sm hover:scale-105"
+              title="Pulse simulated club activity telemetry"
+            >
+              <Sparkles className="w-3 h-3 text-[#acffce]" />
+              <span>Simulate Live Event</span>
+            </button>
+            <div className="text-right hidden sm:block font-mono text-xs text-white/40">
+              <p>
+                Logged in as <span className="text-[#acffce] font-semibold">{currentUser.full_name}</span>
+              </p>
+            </div>
           </div>
         </div>
 

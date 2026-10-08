@@ -169,8 +169,7 @@ service cloud.firestore {
 
     // 2. Public Profiles (Sanitized, NO PII email) - Community Directory
     match /public_profiles/{userId} {
-      allow get: if isValidId(userId) && isSignedIn();
-      allow list: if isSignedIn();
+      allow get, list: if isValidId(userId);
       allow create: if isValidId(userId) && isOwner(userId) && isValidPublicProfile(incoming()) && (
         incoming().role == 'student' || isAdmin()
       );
@@ -182,7 +181,7 @@ service cloud.firestore {
 
     // 3. Stickers
     match /stickers/{stickerId} {
-      allow get, list: if isSignedIn();
+      allow get, list: if true;
       allow create: if isValidId(stickerId) && isSignedIn() && isValidSticker(incoming()) &&
         incoming().user_id == request.auth.uid;
       allow update: if isValidId(stickerId) && isSignedIn() && isValidSticker(incoming()) &&
@@ -195,7 +194,7 @@ service cloud.firestore {
 
     // 4. Achievements
     match /achievements/{achievementId} {
-      allow get, list: if isSignedIn();
+      allow get, list: if true;
       allow create: if isValidId(achievementId) && isSignedIn() && isValidAchievement(incoming()) &&
         incoming().user_id == request.auth.uid;
       allow update: if isValidId(achievementId) && isSignedIn() && isValidAchievement(incoming()) &&
@@ -208,7 +207,7 @@ service cloud.firestore {
 
     // 5. Ideas
     match /ideas/{ideaId} {
-      allow get, list: if isSignedIn();
+      allow get, list: if true;
       allow create: if isValidId(ideaId) && isSignedIn() && isValidIdea(incoming()) &&
         incoming().user_id == request.auth.uid &&
         incoming().likes_count == 0;
@@ -234,7 +233,7 @@ service cloud.firestore {
 
     // 6. Idea Likes
     match /idea_likes/{likeId} {
-      allow get, list: if isSignedIn();
+      allow get, list: if true;
       allow create: if isValidId(likeId) && isSignedIn() && isValidIdeaLike(incoming()) &&
         incoming().user_id == request.auth.uid;
       allow update: if false; // Likes are immutable
@@ -244,7 +243,7 @@ service cloud.firestore {
 
     // 7. Chat Messages
     match /chat_messages/{messageId} {
-      allow get, list: if isSignedIn();
+      allow get, list: if true;
       allow create: if isValidId(messageId) && isSignedIn() && isValidChatMessage(incoming()) &&
         incoming().user_id == request.auth.uid;
       allow update: if false; // Chat records are immutable
