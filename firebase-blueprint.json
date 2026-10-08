@@ -1,0 +1,134 @@
+{
+  "entities": {
+    "Profile": {
+      "title": "Profile",
+      "description": "User profile representation for students and club members",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "full_name": { "type": "string", "maxLength": 120 },
+        "email": { "type": "string", "format": "email", "maxLength": 120 },
+        "avatar_url": { "type": "string", "maxLength": 1000 },
+        "bio": { "type": "string", "maxLength": 500 },
+        "roll_number": { "type": "string", "maxLength": 64 },
+        "year": { "type": "string", "maxLength": 64 },
+        "role": { "type": "string", "enum": ["student", "admin"] },
+        "github_username": { "type": "string", "maxLength": 100 },
+        "is_active": { "type": "boolean" },
+        "created_at": { "type": "string", "maxLength": 64 },
+        "updated_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "full_name", "email", "role", "is_active", "created_at", "updated_at"]
+    },
+    "Sticker": {
+      "title": "Sticker",
+      "description": "Digital event sticker or badge collected by student",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "user_id": { "type": "string", "maxLength": 128 },
+        "user_name": { "type": "string", "maxLength": 120 },
+        "user_avatar": { "type": "string", "maxLength": 1000 },
+        "event_name": { "type": "string", "maxLength": 150 },
+        "sticker_name": { "type": "string", "maxLength": 150 },
+        "event_date": { "type": "string", "maxLength": 64 },
+        "image_url": { "type": "string", "maxLength": 2000 },
+        "category": { "type": "string", "maxLength": 64 },
+        "created_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "user_id", "event_name", "sticker_name", "category", "created_at"]
+    },
+    "Achievement": {
+      "title": "Achievement",
+      "description": "Student achievement, competition result, or certificate",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "user_id": { "type": "string", "maxLength": 128 },
+        "user_name": { "type": "string", "maxLength": 120 },
+        "user_avatar": { "type": "string", "maxLength": 1000 },
+        "title": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "category": { "type": "string", "maxLength": 64 },
+        "organization": { "type": "string", "maxLength": 150 },
+        "achievement_date": { "type": "string", "maxLength": 64 },
+        "image_url": { "type": "string", "maxLength": 2000 },
+        "proof_link": { "type": "string", "maxLength": 1000 },
+        "created_at": { "type": "string", "maxLength": 64 },
+        "updated_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "user_id", "title", "category", "organization", "created_at", "updated_at"]
+    },
+    "Idea": {
+      "title": "Idea",
+      "description": "Project or hackathon idea proposed by community",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "user_id": { "type": "string", "maxLength": 128 },
+        "user_name": { "type": "string", "maxLength": 120 },
+        "user_avatar": { "type": "string", "maxLength": 1000 },
+        "title": { "type": "string", "maxLength": 200 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "category": { "type": "string", "maxLength": 64 },
+        "likes_count": { "type": "number" },
+        "created_at": { "type": "string", "maxLength": 64 },
+        "updated_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "user_id", "title", "description", "category", "likes_count", "created_at", "updated_at"]
+    },
+    "IdeaLike": {
+      "title": "IdeaLike",
+      "description": "Like record by a user on a specific project idea",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "idea_id": { "type": "string", "maxLength": 128 },
+        "user_id": { "type": "string", "maxLength": 128 },
+        "created_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "idea_id", "user_id", "created_at"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Message in the Tech Club collaborative live chat stream",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "user_id": { "type": "string", "maxLength": 128 },
+        "user_name": { "type": "string", "maxLength": 120 },
+        "user_avatar": { "type": "string", "maxLength": 1000 },
+        "user_role": { "type": "string", "maxLength": 32 },
+        "message": { "type": "string", "maxLength": 1000 },
+        "created_at": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "user_id", "user_name", "message", "created_at"]
+    }
+  },
+  "firestore": {
+    "/profiles/{userId}": {
+      "schema": "Profile",
+      "description": "User profiles indexed by their user UID"
+    },
+    "/stickers/{stickerId}": {
+      "schema": "Sticker",
+      "description": "Sticker repository collected by club members"
+    },
+    "/achievements/{achievementId}": {
+      "schema": "Achievement",
+      "description": "Achievements awarded to club members"
+    },
+    "/ideas/{ideaId}": {
+      "schema": "Idea",
+      "description": "Innovation and project ideas submitted by members"
+    },
+    "/idea_likes/{likeId}": {
+      "schema": "IdeaLike",
+      "description": "User likes on innovation ideas"
+    },
+    "/chat_messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Club live feed message logs"
+    }
+  }
+}

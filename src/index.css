@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-canvas: #121316;
+    --color-darkgray: #191a1e;
+    --color-darkgray-elevated: #202227;
+    --color-accent-green: #acffce;
+    --color-accent-cyan: #89eefa;
+    --color-accent-purple: #a2a7ff;
+    --color-accent-yellow: #ffe990;
+    --color-accent-pink: #f4a2c3;
+    --color-accent: var(--color-accent-green);
+    --color-white: #ffffff;
+    --color-white-65: rgba(255, 255, 255, 0.65);
+    --color-white-50: rgba(255, 255, 255, 0.50);
+    --color-white-30: rgba(255, 255, 255, 0.30);
+    --color-white-15: rgba(255, 255, 255, 0.15);
+    --color-white-8: rgba(255, 255, 255, 0.08);
+
+    --font-display: 'Syne', sans-serif;
+    --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-canvas);
+    color: var(--color-white-65);
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    color: var(--color-white);
+  }
+
+  code, pre, .font-mono, .caps-mono {
+    font-family: var(--font-mono);
+  }
+}
+
+/* Custom scrollbars (Byotone style: discreet track, accent thumb) */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-canvas);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-white-15);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent-green);
+}
+
+/* Byotone Signature Utility Classes */
+.c-accent {
+  color: var(--color-accent-green);
+}
+
+.c-accent-cyan {
+  color: var(--color-accent-cyan);
+}
+
+.c-accent-purple {
+  color: var(--color-accent-purple);
+}
+
+.bg-accent {
+  background-color: var(--color-accent-green);
+  color: var(--color-darkgray);
+}
+
+.caps-small {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.byotone-card {
+  background-color: var(--color-darkgray);
+  border: 1px solid var(--color-white-10);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.byotone-card:hover {
+  border-color: var(--color-white-30);
+}
+
+/* Button Orbit: Byotone hallmark button with subtle border & invert on hover */
+.button-orbit {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.6rem;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--color-white-30);
+  background: transparent;
+  color: var(--color-white);
+  cursor: pointer;
+}
+
+.button-orbit:hover {
+  background: var(--color-accent-green);
+  border-color: var(--color-accent-green);
+  color: var(--color-darkgray);
+  box-shadow: 0 0 24px rgba(172, 255, 206, 0.35);
+}
+
+.button-orbit.is-primary {
+  background: var(--color-accent-green);
+  border-color: var(--color-accent-green);
+  color: var(--color-darkgray);
+}
+
+.button-orbit.is-primary:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: var(--color-darkgray);
+  box-shadow: 0 0 28px rgba(255, 255, 255, 0.4);
+}
+
+/* Delicate grid backdrop */
+.byotone-grid-pattern {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 28px 28px;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "TechVerse | BST Tech Club Student Portal",
+  "description": "Premium student portal for BST Tech Club featuring Hacktoberfest badge tracking, achievement showcase, sticker collection, idea board, realtime community, and admin controls.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
