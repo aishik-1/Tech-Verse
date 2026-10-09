@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Profile } from '../types';
-import { ShieldCheck, LogOut, User, Menu, X, Sparkles, Key } from 'lucide-react';
+import { ShieldCheck, LogOut, User, Menu, X, Sparkles } from 'lucide-react';
 import { motion } from 'motion/react';
 
 interface NavbarProps {
@@ -57,9 +57,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             <span className="w-2.5 h-2.5 rounded-full bg-[#acffce] shadow-[0_0_10px_#acffce] group-hover:scale-125 transition-transform" />
             <span className="tracking-[0.16em]">TECHVERSE</span>
           </button>
-          <span className="hidden sm:inline-block text-[10px] font-mono uppercase tracking-widest text-white/40 px-2 py-0.5 rounded border border-white/10 bg-[#191a1e]">
-            BST Tech Club
-          </span>
         </div>
 
         {/* Zone 2: Navigation Links with Framer Motion Layout Transition */}
@@ -96,16 +93,6 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="flex items-center gap-3">
           {currentUser ? (
             <div className="flex items-center gap-2.5">
-              {/* Direct Access to 3D Login Portal anytime */}
-              <button
-                onClick={onOpenAuth}
-                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#ffd166]/10 hover:bg-[#ffd166]/20 border border-[#ffd166]/30 text-[#ffd166] text-xs font-mono uppercase tracking-wider transition-colors cursor-pointer"
-                title="Switch Account or open 3D Login Portal"
-              >
-                <Key className="w-3.5 h-3.5" />
-                <span>Login Portal</span>
-              </button>
-
               <button
                 onClick={onOpenProfile}
                 className="flex items-center gap-2 p-1.5 pr-3 rounded-full bg-[#191a1e] border border-white/10 hover:border-[#acffce]/40 transition-all hover:bg-[#202227] cursor-pointer"
@@ -178,16 +165,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               </span>
             </button>
           ))}
-          <button
-            onClick={() => {
-              onOpenAuth();
-              setMobileMenuOpen(false);
-            }}
-            className="w-full text-left px-3 py-2 rounded-lg text-xs font-mono uppercase text-[#ffd166] bg-[#ffd166]/10 border border-[#ffd166]/20 flex items-center gap-2 mt-2"
-          >
-            <Key className="w-4 h-4 text-[#ffd166]" />
-            3D Student Login Portal
-          </button>
           {currentUser && (
             <button
               onClick={() => {

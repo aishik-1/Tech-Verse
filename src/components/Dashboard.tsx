@@ -18,7 +18,6 @@ import {
   Flame,
   Activity,
   Layers,
-  Zap,
   Sun,
   Moon,
   Sunset,
@@ -244,16 +243,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-3.5 max-w-xl">
-            {/* Top Telemetry & Time Indicator */}
+            {/* Time Indicator */}
             <div className="flex flex-wrap items-center gap-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#131418] border border-white/15 text-[11px] font-mono tracking-wider text-white/60">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#ffd166] animate-pulse" />
-                <span className="text-white">BST TECH CITADEL</span>
-                <span className="text-white/20">•</span>
-                <span className="text-[#ffd166]">TPLH SHADER CORE</span>
-              </div>
-
-              {/* Time Cycle Pill */}
               <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-[10px] font-mono tracking-wider text-white/50">
                 <TimeIcon className={`w-3 h-3 ${timeGreetingInfo.accentColor}`} />
                 <span>{timeGreetingInfo.timeTag}</span>
@@ -303,35 +294,8 @@ export const Dashboard: React.FC<DashboardProps> = ({
           {/* Quick Actions in Byotone button-orbit style */}
           <div className="flex flex-wrap items-center gap-2.5 relative z-10">
             <button
-              onClick={() => {
-                db.pulseLiveTelemetry();
-              }}
-              className="px-3.5 py-2 rounded-xl bg-[#acffce]/10 hover:bg-[#acffce]/20 border border-[#acffce]/30 text-[#acffce] text-xs font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer shadow-md hover:scale-[1.02]"
-              title="Click to pulse and trigger live community telemetry update"
-            >
-              <Zap className="w-3.5 h-3.5 animate-pulse text-[#acffce]" />
-              <span>Pulse Live Telemetry</span>
-            </button>
-            <button
-              onClick={() => {
-                window.location.hash = '#login';
-              }}
-              className="px-3.5 py-2 rounded-xl bg-[#ffd166]/10 hover:bg-[#ffd166]/20 border border-[#ffd166]/30 text-[#ffd166] text-xs font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer shadow-md hover:scale-[1.02]"
-              title="Open 3D tplh.net Login Portal"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#ffd166]" />
-              <span>3D Login Portal</span>
-            </button>
-            <button
-              onClick={() => onNavigateTab('tracks')}
-              className="button-orbit is-primary !py-2 !px-4 !text-xs flex items-center gap-1.5 shadow-lg shadow-[#ffd166]/10 cursor-pointer"
-            >
-              <Cpu className="w-3.5 h-3.5" />
-              <span>Explore Tracks</span>
-            </button>
-            <button
               onClick={() => onNavigateTab('badges')}
-              className="button-orbit !py-2 !px-4 !text-xs flex items-center gap-1.5 cursor-pointer"
+              className="button-orbit is-primary !py-2 !px-4 !text-xs flex items-center gap-1.5 cursor-pointer shadow-lg shadow-[#ffd166]/10"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Add Badge</span>
