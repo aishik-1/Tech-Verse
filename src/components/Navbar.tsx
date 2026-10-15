@@ -55,7 +55,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             className="text-left font-display text-lg font-bold tracking-widest text-white hover:text-[#acffce] transition-colors flex items-center gap-2.5 cursor-pointer group"
           >
             <span className="w-2.5 h-2.5 rounded-full bg-[#acffce] shadow-[0_0_10px_#acffce] group-hover:scale-125 transition-transform" />
-            <span className="tracking-[0.16em]">TECHVERSE</span>
+            <span className="tracking-[0.16em]">B/Stack</span>
           </button>
         </div>
 
